@@ -1,10 +1,7 @@
-package com.mstransactionbankapi.model;
+package com.mstransactionbankapi.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import java.io.Serializable;
+import com.mstransactionbankapi.model.Channel;
+import com.mstransactionbankapi.model.Status;
 import java.math.BigDecimal;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
@@ -17,26 +14,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@Entity
 @NoArgsConstructor
-public class TransactionModel implements Serializable {
+public class StatusDto {
 
-  @Id
   private String reference;
-
   private String accountIban;
-
   private Instant date;
-
   private BigDecimal amount;
-
   private BigDecimal fee;
-
-  @Enumerated(EnumType.STRING)
   private Status status;
-
-  @Enumerated(EnumType.STRING)
   private Channel channel;
-
   private String description;
+
 }

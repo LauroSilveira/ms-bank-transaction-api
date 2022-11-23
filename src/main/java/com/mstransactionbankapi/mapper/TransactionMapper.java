@@ -1,16 +1,18 @@
 package com.mstransactionbankapi.mapper;
 
 import com.mstransactionbankapi.dto.PayLoadDto;
+import com.mstransactionbankapi.dto.StatusDto;
 import com.mstransactionbankapi.model.TransactionModel;
-import java.util.List;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
 
-  TransactionModel mapperToModel(PayLoadDto dto);
+  TransactionModel mapperToModel(PayLoadDto payLoadDto);
 
-  PayLoadDto mapperToDto(TransactionModel model);
+  PayLoadDto mapperToDto(TransactionModel transactionModel);
 
-  List<PayLoadDto> mapperToListDto(List<TransactionModel> transactions);
+  StatusDto mapperToStatusDto(TransactionModel transactionModel);
+
+  TransactionModel mapperToModel(StatusDto statusDto);
 }
