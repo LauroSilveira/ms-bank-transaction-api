@@ -7,6 +7,7 @@ import com.mstransactionbankapi.model.Channel;
 import com.mstransactionbankapi.model.Status;
 import com.mstransactionbankapi.model.TransactionModel;
 import com.mstransactionbankapi.respository.TransactionRepository;
+import jakarta.persistence.PersistenceException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
@@ -41,7 +42,7 @@ public class TransactionService {
       }
       repository.save(model);
       return mapper.mapperToDto(model);
-    } catch (RuntimeException exception) {
+    } catch (PersistenceException exception) {
       log.error("Error to save a new transaction: {}", exception.getMessage());
       return null;
     }
@@ -66,7 +67,7 @@ public class TransactionService {
     if (!transactions.isEmpty()) {
       return transactions.stream().map(mapper::mapperToDto).toList();
     } else {
-      log.info("Not found transactions");
+      log.info("Not found transaction");
       return Collections.emptyList();
     }
   }
@@ -80,9 +81,12 @@ public class TransactionService {
 
     if (entity.isPresent()) {
       final var transactionModel = checkTransactionStausChannel(entity.get());
+
+      log.info("Transaction after check status: {} ", transactionModel);
       return mapper.mapperToStatusDto(transactionModel);
     } else {
-      //if the transaction is not sotred
+      // case A
+      //if the transaction is not Stored
       return StatusDto.builder()
           .reference(dto.getReference())
           .status(Status.INVALID)

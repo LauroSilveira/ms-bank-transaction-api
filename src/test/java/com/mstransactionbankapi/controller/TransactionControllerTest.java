@@ -46,7 +46,7 @@ class TransactionControllerTest {
   private ObjectMapper objectMapper;
 
   @Test
-  void should_save_transaction_ok_test() throws Exception {
+  void save_transaction_ok_test() throws Exception {
     //GIVEN
     var payLoadDto = PayLoadDto.builder()
         .accountIban("ES9820385778983000760237")

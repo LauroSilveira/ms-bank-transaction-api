@@ -67,6 +67,33 @@ class TransactionServiceTest {
   }
 
   @Test
+  void saveTransactionGeneratingReferenceFieldTest() {
+    //Given
+    var dto = PayLoadDto.builder()
+        .date(Instant.now())
+        .amount(new BigDecimal("3.12"))
+        .fee(new BigDecimal("2.3"))
+        .channel(Channel.CLIENT)
+        .build();
+
+    final var model = mapper.mapperToModel(dto);
+
+    Mockito.when(mapper.mapperToModel(dto)).thenReturn(model);
+
+    //When
+    var payLoadDto = service.saveTransaction(dto);
+
+    //Then
+    Assertions.assertAll(() -> Assertions.assertNotNull(payLoadDto),
+        () -> Assertions.assertNotNull(payLoadDto.getReference()),
+        () -> Assertions.assertEquals(dto.getDate(), payLoadDto.getDate()),
+        () -> Assertions.assertEquals(dto.getAmount(), payLoadDto.getAmount()),
+        () -> Assertions.assertEquals(dto.getFee(), payLoadDto.getFee()),
+        () -> Assertions.assertEquals(dto.getChannel(), payLoadDto.getChannel())
+    );
+  }
+
+  @Test
   void getTransactionByAccountIbanTest() {
     //Given
     var dto = PayLoadDto.builder()
